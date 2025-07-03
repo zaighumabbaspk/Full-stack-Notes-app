@@ -17,6 +17,7 @@ app.get("/api/hello", (req, res) => {
   res.send("Hello World with ESM!");
 });
 
+console.log(process.env.MONGO_URI);
 const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true,
