@@ -18,13 +18,23 @@ app.get("/api/hello", (req, res) => {
 });
 
 console.log(process.env.MONGO_URI);
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://full-stack-notes-app-silk.vercel.app",
+];
+
 const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "https://full-stack-notes-app-silk.vercel.app",
-  ],
+  origin: function (origin, callback) {
+  
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 
