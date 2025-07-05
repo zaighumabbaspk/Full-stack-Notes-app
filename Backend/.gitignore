@@ -1,1 +1,4 @@
-.env
+MONGO_URI=mongodb+srv://zaighumabbas786000:zaighum123@cluster0.wvxy4zw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+PORT=3000
+UPSTASH_REDIS_REST_URL=https://smooth-goblin-49077.upstash.io
+UPSTASH_REDIS_REST_TOKEN=Ab-1AAIjcDE2OGVhODlhZmE5ZDE0YmY2OTEwYTRmZjVlZGVhZWFhNHAxMA
