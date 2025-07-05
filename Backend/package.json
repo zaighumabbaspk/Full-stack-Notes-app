@@ -2,16 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "src/server.js",
-  "scripts": {
-    "start": "node src/server.js",      
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "type": "module",
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "cd ../Frontend/my-app && npm install && npm run build",
+    "postinstall": "npm run build"
+  },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.35.0",
@@ -20,5 +17,8 @@
     "express": "^4.18.2",
     "express-rate-limit": "^7.5.0",
     "mongoose": "^8.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
