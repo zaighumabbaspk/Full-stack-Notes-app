@@ -1,54 +1,42 @@
-import express from "express";
-import noteRoute from "./routes/noteRoutes.js";
-import connectDB from "./config/db.js";
-import dotenv from "dotenv";
-import rateLimiter from "./middleware/rateLimiter.js";
-import { Ratelimit } from "@upstash/ratelimit";
-import cors from "cors";
+// server.js or src/server.js
 
-const app = express();
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+import connectDB from "./config/db.js";
+import noteRoute from "./routes/noteRoutes.js";
+import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config();
 
-const port = process.env.PORT;
-// console.log(port);
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.get("/api/hello", (req, res) => {
-  res.send("Hello World with ESM!");
-});
+// __dirname workaround for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-console.log(process.env.MONGO_URI);
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://full-stack-notes-app-silk.vercel.app",
-];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-  
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-};
-
-
-app.use(cors(corsOptions));
-
+// Middleware
 app.use(express.json());
 app.use(rateLimiter);
 
+// API routes
 app.use("/api/notes", noteRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+// Serve frontend static files
+const frontendPath = path.join(__dirname, "../../Frontend/my-app/dist");
+app.use(express.static(frontendPath));
+
+// Catch-all for SPA routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+// Connect to DB and start server
 connectDB().then(() => {
   app.listen(port, () => {
-    console.log("Server started on PORT:", port);
+    console.log(`✅ Server running at http://localhost:${port}`);
   });
 });
