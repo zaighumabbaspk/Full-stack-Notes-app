@@ -34,9 +34,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// Connect to DB and start server
 connectDB().then(() => {
-  app.listen(port, () => {
-    console.log(`✅ Server running at http://localhost:${port}`);
+  // Connect to DB and start server
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`✅ Server running on port ${port}`);
   });
 });
